@@ -220,7 +220,7 @@ class custemfeild extends StatelessWidget {
     this.obscureText = false,
   });
   final TextInputType keyboardTypeC;
-  final Icon? Suffix;
+  final Widget? Suffix;
   final FormFieldValidator<String>? validatorC;
   final format;
   final obscureText;

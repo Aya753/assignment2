@@ -14,9 +14,9 @@ class Login extends StatefulWidget {
 GlobalKey<FormState> formkey2 = GlobalKey<FormState>();
 bool rememberMe = false;
 
-void setState(Null Function() param0) {}
-
 class _LoginState extends State<Login> {
+  bool _isSecurePassword = true;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,8 +119,9 @@ class _LoginState extends State<Login> {
                             custemfeild(
                               //TODO Suffix icon
                               keyboardTypeC: TextInputType.visiblePassword,
-                              obscureText: true,
-                              Suffix: Icon(Icons.visibility_off),
+                              obscureText: _isSecurePassword,
+
+                              Suffix: togglePassword(),
 
                               // Suffix: Icon(  Icons.visibility_off  Icons.visibility,),
                               validatorC: (value) {
@@ -190,6 +191,20 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget togglePassword() {
+    return IconButton(
+      onPressed: () {
+        setState(() {
+          _isSecurePassword = !_isSecurePassword;
+        });
+      },
+      icon:
+          _isSecurePassword
+              ? Icon(Icons.visibility)
+              : Icon(Icons.visibility_off),
     );
   }
 }
