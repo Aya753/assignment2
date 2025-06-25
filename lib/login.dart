@@ -117,13 +117,21 @@ class _LoginState extends State<Login> {
                             //Password
                             LabelT(Label: "Password"),
                             custemfeild(
-                              //TODO Suffix icon
                               keyboardTypeC: TextInputType.visiblePassword,
+
                               obscureText: _isSecurePassword,
+                              Suffix: IconButton(
+                                onPressed: () {
+                                  setState(() {
+                                    _isSecurePassword = !_isSecurePassword;
+                                  });
+                                },
+                                icon:
+                                    _isSecurePassword
+                                        ? Icon(Icons.visibility_off)
+                                        : Icon(Icons.visibility),
+                              ),
 
-                              Suffix: togglePassword(),
-
-                              // Suffix: Icon(  Icons.visibility_off  Icons.visibility,),
                               validatorC: (value) {
                                 if ((value ?? '').isEmpty || value!.length < 5)
                                   return 'Please enter password ';
@@ -191,20 +199,6 @@ class _LoginState extends State<Login> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget togglePassword() {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          _isSecurePassword = !_isSecurePassword;
-        });
-      },
-      icon:
-          _isSecurePassword
-              ? Icon(Icons.visibility)
-              : Icon(Icons.visibility_off),
     );
   }
 }

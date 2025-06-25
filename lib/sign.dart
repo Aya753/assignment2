@@ -14,6 +14,7 @@ class sign extends StatefulWidget {
 GlobalKey<FormState> formkey = GlobalKey<FormState>();
 
 class _signState extends State<sign> {
+  bool _isSecurePassword = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -169,8 +170,19 @@ class _signState extends State<sign> {
                               LabelT(Label: "Set Password"),
                               custemfeild(
                                 keyboardTypeC: TextInputType.visiblePassword,
-                                obscureText: true,
-                                Suffix: Icon(Icons.visibility_off),
+                                obscureText: _isSecurePassword,
+                                Suffix: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _isSecurePassword = !_isSecurePassword;
+                                    });
+                                  },
+                                  icon:
+                                      _isSecurePassword
+                                          ? Icon(Icons.visibility_off)
+                                          : Icon(Icons.visibility),
+                                ),
+
                                 validatorC: (value) {
                                   if ((value ?? '').isEmpty ||
                                       value!.length < 5)
@@ -210,7 +222,7 @@ class _signState extends State<sign> {
   }
 }
 
-class custemfeild extends StatelessWidget {
+class custemfeild extends StatefulWidget {
   const custemfeild({
     super.key,
     required this.keyboardTypeC,
@@ -226,21 +238,26 @@ class custemfeild extends StatelessWidget {
   final obscureText;
 
   @override
+  State<custemfeild> createState() => _custemfeildState();
+}
+
+class _custemfeildState extends State<custemfeild> {
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 300,
       height: 60,
       child: TextFormField(
-        obscureText: obscureText,
-        validator: validatorC,
-        keyboardType: keyboardTypeC,
-        inputFormatters: format,
+        obscureText: widget.obscureText,
+        validator: widget.validatorC,
+        keyboardType: widget.keyboardTypeC,
+        inputFormatters: widget.format,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10),
             borderSide: BorderSide(color: Colors.grey),
           ),
-          suffixIcon: Suffix,
+          suffixIcon: widget.Suffix,
         ),
       ),
     );
@@ -252,7 +269,7 @@ class custemfeild extends StatelessWidget {
     properties.add(
       ObjectFlagProperty<FormFieldValidator<String>?>.has(
         'validatorC',
-        validatorC,
+        widget.validatorC,
       ),
     );
   }
